@@ -26,16 +26,16 @@ cd MuSeeker
 Crea un entorno virtual y actívalo en el directorio raíz del proyecto:
 
 ```bash
-python -m venv venv
+python -m venv .venv
 ```
 
 - En Windows:
   ```bash
-  .env\Scriptsctivate
+  .venv\Scripts\activate
   ```
 - En macOS/Linux:
   ```bash
-  source venv/bin/activate
+  source .venv/bin/activate
   ```
 
 ### 3. Instalar las dependencias
@@ -77,6 +77,7 @@ Accede a la aplicación en `http://127.0.0.1:8000/`.
 - **Django**: Framework web en Python para desarrollar la aplicación.
 - **SQLite** (predeterminado): Base de datos ligera para el desarrollo y pruebas.
 - **HTML, CSS, JavaScript**: Para la creación de la interfaz de usuario.
+- **Jinja**: Motor de plantillas utilizado por Django para generar dinámicamente HTML en el lado del servidor.
 - **Bootstrap**: Framework CSS para hacer la interfaz más moderna y responsive.
 
 ## Contribuciones
