@@ -80,12 +80,3 @@ Accede a la aplicación en `http://127.0.0.1:8000/`.
 - **Jinja**: Motor de plantillas utilizado por Django para generar dinámicamente HTML en el lado del servidor.
 - **Bootstrap**: Framework CSS para hacer la interfaz más moderna y responsive.
 
-## Contribuciones
-
-Si deseas contribuir al proyecto, sigue estos pasos:
-
-1. Haz un fork del repositorio.
-2. Crea una rama nueva (`git checkout -b feature/mi-nueva-funcionalidad`).
-3. Realiza tus cambios y haz un commit (`git commit -am 'Añadir nueva funcionalidad'`).
-4. Empuja tus cambios a tu fork (`git push origin feature/mi-nueva-funcionalidad`).
-5. Crea un pull request para que podamos revisar y fusionar tus cambios.
