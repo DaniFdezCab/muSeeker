@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="text-center">Search for Albums</h2>
+
+    <form method="get" action="{% url 'search' %}">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" name="q" placeholder="Search albums..." value="{{ query }}">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+    </form>
+
+    {% if results %}
+    <div class="mt-4">
+        <h3>Search Results</h3>
+        <ul class="list-group">
+            {% for result in results %}
+                <li class="list-group-item">
+                    <h5>{{ result.title }}</h5>
+                    <p><strong>Artist:</strong> {{ result.artist }}</p>
+                    <p><strong>Release Date:</strong> {{ result.release_date }}</p>
+                    <p><strong>Genres:</strong> {{ result.genres|join:", " }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% else %}
+        {% if query == "" %}
+            <p>Enter a search query to find albums.</p>
+        {% else %}
+            <p>No results found for "{{ query }}".</p>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}

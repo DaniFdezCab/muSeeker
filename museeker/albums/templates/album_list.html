@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2 class="mb-4">Lista de Álbumes</h2>
+    <div class="row">
+        {% for album in albums %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ album.title }}</h5>
+                        <p class="card-text"><strong>Artista:</strong> {{ album.artist }}</p>
+                        <p class="card-text"><strong>Fecha de Lanzamiento:</strong> {{ album.release_date }}</p>
+                        <p class="card-text"><strong>Géneros:</strong> {{ album.genres }}</p>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>No se encontraron álbumes.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

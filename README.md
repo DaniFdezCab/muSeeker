@@ -9,6 +9,7 @@ MuSeeker es una aplicación web desarrollada con Django, creada como parte de un
 - **Detalles de Álbumes**: Muestra información detallada sobre los álbumes, incluyendo el nombre, la fecha de lanzamiento, las canciones y más.
 - **Exploración de Artistas**: Los usuarios pueden explorar la discografía de los artistas y obtener información sobre su biografía y álbumes.
 - **Interfaz de Usuario**: Una interfaz intuitiva y fácil de usar para realizar búsquedas y visualizar los resultados de manera clara.
+- **Recomendaciones**: Un sistema de recomendaciones disponible para descubrir nuevos artistas y géneros. 
 
 ## Instalación
 

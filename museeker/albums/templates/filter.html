@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2 class="mb-4">Filtrar Álbumes por Género</h2>
+    <form method="get" action="{% url 'filter' %}">
+        <div class="mb-3">
+            <label for="genre" class="form-label">Seleccione un Género:</label>
+            <select id="genre" name="selected_genre" class="form-select">
+                <option value="">Todos</option>
+                {% for genre in genres %}
+                    <option value="{{ genre }}" {% if genre == selected_genre %}selected{% endif %}>{{ genre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
+
+    {% if results %}
+        <div class="mt-4">
+            <h3>Resultado de la Búsqueda</h3>
+            <div class="row">
+                {% for album in results %}
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ album.title }}</h5>
+                                <p class="card-text"><strong>Artista:</strong> {{ album.artist }}</p>
+                                <p class="card-text"><strong>Fecha de Lanzamiento:</strong> {{ album.release_date }}</p>
+                                <p class="card-text"><strong>Géneros:</strong> {{ album.genres|join:", " }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% elif selected_genre %}
+        <p>No se encontraron álbumes para el género "{{ selected_genre }}".</p>
+    {% endif %}
+{% endblock %}

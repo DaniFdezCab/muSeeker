@@ -1,0 +1,323 @@
+/* Variables de colores */
+:root {
+    --primary-color: #4A90E2; /* Azul profesional */
+    --secondary-color: #50E3C2; /* Verde menta */
+    --background-gradient: linear-gradient(to bottom, #ece9e6, #ffffff);
+    --navbar-bg: #ffffff;
+    --text-color: #333333;
+    --light-text-color: #ffffff;
+    --card-bg: #f9f9f9;
+    --card-hover-bg: #e6f7ff;
+    --button-hover-bg: #357ABD;
+    --footer-bg: #2c3e50;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* General */
+body {
+    font-family: var(--font-family);
+    background: var(--background-gradient);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--primary-color);
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--secondary-color);
+}
+
+/* Encabezado */
+header {
+    background: var(--navbar-bg);
+    color: var(--text-color);
+    padding: 20px 0;
+    box-shadow: 0 4px 6px var(--shadow-color);
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Navbar */
+.navbar {
+    background: linear-gradient(to right, #679edc, #4bc1e6);
+    padding: 10px 20px;
+    box-shadow: 0 4px 6px var(--shadow-color);
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+.navbar-brand img {
+    width: 40px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.navbar-nav .nav-link {
+    color: var(--text-color);
+    font-weight: 600;
+    padding: 10px 15px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, border-radius 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    background-color: rgba(74, 144, 226, 0.1);
+    border-radius: 5px;
+}
+
+.dropdown-menu {
+    background-color: var(--navbar-bg);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+.dropdown-item {
+    color: var(--text-color);
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background-color: rgba(80, 227, 194, 0.1);
+}
+
+/* Main Content */
+main {
+    margin: 30px auto;
+    padding: 20px;
+    max-width: 1200px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    color: var(--text-color);
+}
+
+/* Títulos */
+h2 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Tarjetas de Álbum */
+.album-card {
+    background: var(--card-bg);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    margin-bottom: 30px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.album-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px var(--shadow-color);
+}
+
+.album-card img {
+    width: 100%;
+    height: auto;
+    border-bottom: 3px solid var(--primary-color);
+}
+
+.album-card-body {
+    padding: 20px;
+    text-align: center;
+}
+
+.album-card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text-color);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.album-card-text {
+    font-size: 1rem;
+    color: #555555;
+    margin-bottom: 10px;
+}
+
+/* Botones */
+.btn-primary {
+    background-color: var(--primary-color);
+    border: none;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: var(--light-text-color);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--button-hover-bg);
+}
+
+/* Búsqueda de Álbumes */
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+    gap: 10px;
+}
+
+.search-container input {
+    width: 60%;
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: 1px solid #cccccc;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.search-container input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.search-container button {
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    border: none;
+    color: var(--light-text-color);
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-container button:hover {
+    background-color: var(--button-hover-bg);
+}
+
+/* Filtro por Género */
+.filter-genre {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.filter-genre label {
+    font-size: 1.1rem;
+    color: var(--text-color);
+}
+
+.filter-genre select {
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: 1px solid #cccccc;
+    font-size: 1rem;
+    background-color: #ffffff;
+    color: var(--text-color);
+    transition: border-color 0.3s ease;
+}
+
+.filter-genre select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.filter-genre button {
+    padding: 8px 16px;
+    background-color: var(--primary-color);
+    border: none;
+    color: var(--light-text-color);
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.filter-genre button:hover {
+    background-color: var(--button-hover-bg);
+}
+
+/* Footer */
+footer {
+    background-color: var(--footer-bg);
+    color: var(--light-text-color);
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 -4px 8px var(--shadow-color);
+}
+
+footer p {
+    font-size: 1rem;
+    margin: 0;
+    font-weight: 500;
+}
+
+/* Ratings */
+.rating {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.rating .star {
+    font-size: 1.5rem;
+    color: #ffd700;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.rating .star:hover,
+.rating .star.selected {
+    color: var(--primary-color);
+}
+
+/* Responsivo */
+@media (max-width: 992px) {
+    .search-container input {
+        width: 70%;
+    }
+}
+
+@media (max-width: 768px) {
+    .search-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .search-container input {
+        width: 100%;
+    }
+
+    .filter-genre {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .album-list-container {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+}
