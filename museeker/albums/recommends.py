@@ -8,10 +8,9 @@ from albums.models import UserAlbumInteraction
 def recommend_albums(user):
     user_interactions = UserAlbumInteraction.objects.filter(user=user)
     
-    # Obtén los géneros favoritos o álbumes relacionados
     preferred_genres = set()
     for interaction in user_interactions:
-        preferred_genres.add(interaction.album_title)  # Cambia esto según tus datos
+        preferred_genres.add(interaction.album_id)
 
     # Busca álbumes relacionados en Whoosh
     ix = open_dir("index")  # Reemplaza con tu índice

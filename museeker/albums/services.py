@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from whoosh.index import open_dir
 from whoosh.qparser import QueryParser
 from datetime import datetime
+from albums.models import UserAlbumInteraction
 
 from whoosh.fields import Schema, TEXT, ID, DATETIME, KEYWORD
 from whoosh.index import create_in
@@ -11,6 +12,7 @@ from whoosh.index import create_in
 # # Definir el esquema de Whoosh
 def create_schema():
     schema = Schema(
+        id=ID(stored=True, unique=True),
         title=TEXT(stored=True),
         artist=TEXT(stored=True),
         release_date=DATETIME(stored=True),
@@ -26,11 +28,11 @@ def create_index(schema):
 
 def get_albums():
     BASE_URL = "https://www.last.fm/music/+releases/out-now/popular?page="
-
+    id = 0
     schema = create_schema()
 
     ix = create_index(schema)
-
+    UserAlbumInteraction.objects.all().delete()
     for i in range(1, 5):
         response = urllib.request.urlopen(f"{BASE_URL}{i}")
         
@@ -53,26 +55,30 @@ def get_albums():
                 artist = album.find('p', class_="resource-list--release-list-item-artist").get_text().strip()
                 date = album.find('p', class_="resource-list--release-list-item-aux-text resource-list--release-list-item-date").get_text().strip()
                 date = datetime.strptime(date, "%d %b %Y")
+                
                 with urllib.request.urlopen(f"https://www.last.fm{href}") as response:
                     album_soup = BeautifulSoup(response.read().decode(encoding), 'html.parser')
                     tags = album_soup.find_all('li', class_="tag")
                     genres = set()
                     for tag in tags:
                         genres.add(tag.get_text().strip())
-                    genres = list(genres)
-                writer_index.add_document(title=title, artist=artist, release_date=date, genres=genres)
-
+                    # Convierte el set a una lista separada por comas
+                    genres = ",".join(genres)
+                    
+                writer_index.add_document(id=str(id), title=title, artist=artist, release_date=date, genres=genres)
+                id += 1
     print("Scraping e indexación completados.")
 
 
-def search_albums(query):
+def search_albums(query, attribute="title"):
     ix = open_dir("index")
     with ix.searcher() as searcher:
-        qp = QueryParser("title", ix.schema)
+        qp = QueryParser(attribute, ix.schema)
         q = qp.parse(query)
         results = searcher.search(q, limit=None)
         return [
             {
+                'id': result['id'],
                 'title': result['title'],
                 'artist': result['artist'],
                 'release_date': result['release_date'],
@@ -113,6 +119,7 @@ def filter_by_genre(genre):
         results = searcher.search(q, limit=None)
         return [
             {
+                'id': result['id'],
                 'title': result['title'],
                 'artist': result['artist'],
                 'release_date': result['release_date'],

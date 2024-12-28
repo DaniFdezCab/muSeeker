@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <h2 class="mb-4">Detalles del Álbum: {{ album.title }}</h2>
+        
+        <div class="row">
+            <div class="col-md-8">
+                <h3 class="mb-3">Información del Álbum</h3>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item border-0"><strong>Artista:</strong> {{ album.artist }}</li>
+                    <li class="list-group-item border-0"><strong>Géneros:</strong> {{ album.genres }}</li>
+                    <li class="list-group-item border-0"><strong>Fecha de Lanzamiento:</strong> {{ album.release_date }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            <!-- Añadir a favoritos -->
+            <div class="mb-3">
+                <button type="submit" name="is_favorite" value="true" class="btn {% if interaction.is_favorite %}btn-secondary{% else %}btn-primary{% endif %}">
+                    {% if interaction.is_favorite %}Quitar de favoritos{% else %}Añadir a favoritos{% endif %}
+                </button>
+            </div>
+            
+            <!-- Puntuar álbum -->
+            <div class="mb-3">
+                <label for="rating" class="form-label">Puntuación:</label>
+                
+                <!-- Estrellas de valoración -->
+                <div class="star-rating">
+                    <input type="radio" id="star5" name="rating" value="5" {% if interaction.rating == 5 %}checked{% endif %} onclick="submitRating()">
+                    <label for="star5" class="star">★</label>
+                    
+                    <input type="radio" id="star4" name="rating" value="4" {% if interaction.rating == 4 %}checked{% endif %} onclick="submitRating()">
+                    <label for="star4" class="star">★</label>
+                    
+                    <input type="radio" id="star3" name="rating" value="3" {% if interaction.rating == 3 %}checked{% endif %} onclick="submitRating()">
+                    <label for="star3" class="star">★</label>
+                    
+                    <input type="radio" id="star2" name="rating" value="2" {% if interaction.rating == 2 %}checked{% endif %} onclick="submitRating()">
+                    <label for="star2" class="star">★</label>
+                    
+                    <input type="radio" id="star1" name="rating" value="1" {% if interaction.rating == 1 %}checked{% endif %} onclick="submitRating()">
+                    <label for="star1" class="star">★</label>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function submitRating() {
+            document.querySelector('form').submit();
+        }
+    </script>
+
+    <style>
+        .star-rating {
+            direction: rtl;
+            display: inline-block;
+            font-size: 2em;
+        }
+
+        .star-rating input[type="radio"] {
+            display: none;
+        }
+
+        .star-rating label {
+            color: #ddd;
+            cursor: pointer;
+        }
+
+        .star-rating label:hover,
+        .star-rating label:hover ~ label,
+        .star-rating input[type="radio"]:checked ~ label {
+            color: #f5b301;
+        }
+    </style>
+{% endblock %}
