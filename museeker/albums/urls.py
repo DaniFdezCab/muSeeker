@@ -10,5 +10,6 @@ urlpatterns = [
     path('load/', view=views.load_data, name='load_data'),
     path('album/<int:id>/', views.album_detail, name='album_detail'),
     path('favorites/', views.user_favorites, name='favorites'),
+    path('recommendations/', views.recommend_albums, name='recommendations'),
 
 ]

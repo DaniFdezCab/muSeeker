@@ -2,26 +2,19 @@
 
 {% block content %}
 <div class="jumbotron bg-primary text-white text-center py-5">
-    <h1 style="color: white;">Welcome to MuSeeker</h1>
-    <p class="lead">Your gateway to discovering and enjoying music like never before.</p>
+    <h1 style="color: white;">Bienvenido a MuSeeker</h1>
+    <p class="lead">Descubre nueva música y guarda tus álbumes favoritos.</p>
 </div>
 
 <section class="bg-light py-5">
     <div class="container text-center">
-        <h3>Getting Started</h3>
-        <p>Before you dive into exploring albums and recommendations, you need to load the data and initialize the recommendation system.</p>
-        <p>This will ensure that you have access to the latest music insights and personalized suggestions tailored to your taste.</p>
+        <h3>Empezar</h3>
+        <p>Antes de comenzar a explorar álbumes y recomendaciones, necesitas cargar los datos.</p>
+        <p>Esto asegurará que tengas acceso a los últimos conocimientos musicales y sugerencias personalizadas según tus gustos.</p>
         <div class="mt-4">
-            <a href="{% url 'load_data' %}" class="btn btn-primary btn-lg">Load Data</a>
-            <a href="#" class="btn btn-secondary btn-lg">Initialize Recommendations</a>
+            <a href="{% url 'load_data' %}" class="btn btn-primary btn-lg">Cargar datos</a>
         </div>
     </div>
 </section>
 
-<section class="bg-dark text-white py-5">
-    <div class="container text-center">
-        <h3>Need Help?</h3>
-        <p>If you encounter any issues or need assistance, visit our <a href="#" class="text-warning">Help Center</a>.</p>
-    </div>
-</section>
 {% endblock %}

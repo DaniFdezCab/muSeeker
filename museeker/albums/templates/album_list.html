@@ -5,14 +5,18 @@
     <div class="row">
         {% for album in albums %}
             <div class="col-md-4">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">
+                <div class="album-card">
+                    <div class="album-card-body">
+                        <h5 class="album-card-title">
                             <a href="{% url 'album_detail' album.id %}" class="text-decoration-none">{{ album.title }}</a>
                         </h5>
-                        <p class="card-text"><strong>Artista:</strong> {{ album.artist }}</p>
-                        <p class="card-text"><strong>Fecha de Lanzamiento:</strong> {{ album.release_date }}</p>
-                        <p class="card-text"><strong>Géneros:</strong> {{ album.genres }}</p>
+                        <p class="album-card-text"><strong>Artista:</strong> {{ album.artist }}</p>
+                        <p class="album-card-text"><strong>Fecha de Lanzamiento:</strong> {{ album.release_date }}</p>
+                        <p class="album-card-text"><strong>Géneros:</strong>
+                            {% for genre in album.genres %}
+                                <span class="badge bg-secondary me-1">{{ genre }}</span>
+                            {% endfor %}
+                        </p>
                     </div>
                 </div>
             </div>

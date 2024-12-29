@@ -20,32 +20,37 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
+                {% if user.is_authenticated %}
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Albums
+                            Álbumes
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{% url 'album_list' %}">Album List</a></li>
-                            <li><a class="dropdown-item" href="{% url 'search' %}">Search an Album</a></li>
-                            <li><a class="dropdown-item" href="{% url 'filter' %}">Filter by Genre</a></li>
+                            <li><a class="dropdown-item" href="{% url 'album_list' %}">Álbumes</a></li>
+                            <li><a class="dropdown-item" href="{% url 'search' %}">Busca un álbum</a></li>
+                            <li><a class="dropdown-item" href="{% url 'filter' %}">Filtrar por Género</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'favorites' %}">Mis favoritos</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'recommendations' %}">Explorar recomendaciones</a>
+                    </li>
                 </ul>
-                <ul class="navbar-nav">
+                {% endif %}
+                <ul class="navbar-nav ms-auto">
                     {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a href="{% url 'logout' %}" class="btn btn-outline-primary">Logout</a>
+                        <a href="{% url 'logout' %}" class="btn btn-outline-primary me-2">Cerrar sesión</a>
                     </li>
                     {% else %}
                     <li class="nav-item me-2">
-                        <a href="{% url 'login' %}" class="btn btn-outline-primary">Login</a>
+                        <a href="{% url 'login' %}" class="btn btn-outline-primary">Iniciar sesión</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{% url 'signup' %}" class="btn btn-primary">Sign Up</a>
+                        <a href="{% url 'signup' %}" class="btn btn-primary">Registrarse</a>
                     </li>
                     {% endif %}
                 </ul>

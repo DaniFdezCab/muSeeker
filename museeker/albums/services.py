@@ -15,7 +15,7 @@ def create_schema():
         id=ID(stored=True, unique=True),
         title=TEXT(stored=True),
         artist=TEXT(stored=True),
-        release_date=DATETIME(stored=True),
+        release_date=TEXT(stored=True),
         genres=KEYWORD(stored=True, commas=True)
     )
     return schema
@@ -54,18 +54,20 @@ def get_albums():
                 href = album.find('h3', class_="resource-list--release-list-item-name").a['href']
                 artist = album.find('p', class_="resource-list--release-list-item-artist").get_text().strip()
                 date = album.find('p', class_="resource-list--release-list-item-aux-text resource-list--release-list-item-date").get_text().strip()
-                date = datetime.strptime(date, "%d %b %Y")
+                date = datetime.strptime(date, "%d %b %Y").date() 
+                release_date = date.strftime("%Y-%m-%d") 
                 
                 with urllib.request.urlopen(f"https://www.last.fm{href}") as response:
                     album_soup = BeautifulSoup(response.read().decode(encoding), 'html.parser')
                     tags = album_soup.find_all('li', class_="tag")
                     genres = set()
                     for tag in tags:
-                        genres.add(tag.get_text().strip())
+                        if tag.get_text().strip() != '':
+                            genres.add(tag.get_text().strip())
                     # Convierte el set a una lista separada por comas
                     genres = ",".join(genres)
                     
-                writer_index.add_document(id=str(id), title=title, artist=artist, release_date=date, genres=genres)
+                writer_index.add_document(id=str(id), title=title, artist=artist, release_date=release_date, genres=genres)
                 id += 1
     print("Scraping e indexación completados.")
 
@@ -82,7 +84,7 @@ def search_albums(query, attribute="title"):
                 'title': result['title'],
                 'artist': result['artist'],
                 'release_date': result['release_date'],
-                'genres': result['genres']
+                'genres': [genre.strip() for genre in result['genres'].split(",")],
             }
             for result in results
         ]
@@ -91,11 +93,22 @@ def list_albums():
     try:
         ix = open_dir("index")
         with ix.searcher() as searcher:
-            results = searcher.documents()
-            return [result for result in results]
+            results = list(searcher.documents())
+        albums = [
+            {
+                'id': result['id'],
+                'title': result['title'],
+                'artist': result['artist'],
+                'release_date': result['release_date'],
+                'genres': [genre.strip() for genre in result['genres'].split(",")],
+            }
+            for result in results
+        ]
+        return albums
     except Exception as e:
         print(f"Error al listar los álbumes: {e}")
         return []
+
 
 
 def get_genres():
@@ -105,8 +118,9 @@ def get_genres():
             results = searcher.documents()
             genres = set()
             for result in results:
-                genres.update(result['genres'])
+                genres.update([genre.strip() for genre in result['genres'].split(",")])
             return list(genres)
+        
     except Exception as e:
         print(f"Error al listar los géneros: {e}")
         return []
@@ -123,7 +137,12 @@ def filter_by_genre(genre):
                 'title': result['title'],
                 'artist': result['artist'],
                 'release_date': result['release_date'],
-                'genres': result['genres']
+                'genres': [genre.strip() for genre in result['genres'].split(",")],
             }
             for result in results
         ]
+
+def sortRecommends(recommended_albums, favorite_genres):
+    # Ordena los álbumes recomendados por cantidad de géneros favoritos
+    recommended_albums.sort(key=lambda album: len(set(album['genres']).intersection(favorite_genres)), reverse=True)
+    return recommended_albums[:10]
