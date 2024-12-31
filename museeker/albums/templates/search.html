@@ -15,13 +15,29 @@
     <div class="mt-4">
         <h3>Search Results</h3>
         <ul class="list-group">
-            {% for result in results %}
-                <li class="list-group-item">
-                    <h5>{{ result.title }}</h5>
-                    <p><strong>Artist:</strong> {{ result.artist }}</p>
-                    <p><strong>Release Date:</strong> {{ result.release_date }}</p>
-                    <p><strong>Genres:</strong> {{ result.genres|join:", " }}</p>
-                </li>
+            {% for album in results %}
+            <div class="col-md-4">
+                <div class="album-card" style="background-image: url('{{ album.img }}');">
+                    <div class="album-overlay">
+                        <div class="album-card-body">
+                            <h5 class="album-card-title">
+                                <a href="{% url 'album_detail' album.id %}" class="text-decoration-none">
+                                    {{ album.title }}
+                                </a>
+                            </h5>
+                            <p class="album-card-text"><strong>Artista:</strong> {{ album.artist }}</p>
+                            <p class="album-card-text"><strong>Fecha de Lanzamiento:</strong> {{ album.release_date }}</p>
+                            <p class="album-card-text"><strong>Géneros:</strong>
+                                {% for genre in album.genres %}
+                                    <span class="badge bg-secondary me-1">{{ genre }}</span>
+                                {% endfor %}
+                            </p>
+                            <hr>
+                            <a href="{% url 'album_detail' album.id %}" class="btn btn-primary">Ver Detalles</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             {% endfor %}
         </ul>
     </div>

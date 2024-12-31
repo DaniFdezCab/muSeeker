@@ -34,7 +34,7 @@ def get_albums():
 
     ix = create_index(schema)
     UserAlbumInteraction.objects.all().delete()
-    for i in range(1, 7):
+    for i in range(1, 5):
         response = urllib.request.urlopen(f"{BASE_URL}{i}")
         
         if response.getcode() != 200:
@@ -49,32 +49,32 @@ def get_albums():
             print("No se encontraron más discos.")
             return
         
-    with ix.writer() as writer_index:
-        for album in albums:
-            title = album.find('h3', class_="resource-list--release-list-item-name").get_text().strip()
-            href = album.find('h3', class_="resource-list--release-list-item-name").a['href']
-            artist = album.find('p', class_="resource-list--release-list-item-artist").get_text().strip()
-            date = album.find('p', class_="resource-list--release-list-item-aux-text resource-list--release-list-item-date").get_text().strip()
-            date = datetime.strptime(date, "%d %b %Y").date()
-            release_date = date.strftime("%Y-%m-%d")
+        with ix.writer() as writer_index:
+            for album in albums:
+                title = album.find('h3', class_="resource-list--release-list-item-name").get_text().strip()
+                href = album.find('h3', class_="resource-list--release-list-item-name").a['href']
+                artist = album.find('p', class_="resource-list--release-list-item-artist").get_text().strip()
+                date = album.find('p', class_="resource-list--release-list-item-aux-text resource-list--release-list-item-date").get_text().strip()
+                date = datetime.strptime(date, "%d %b %Y").date()
+                release_date = date.strftime("%Y-%m-%d")
 
-            # Obtén la URL de la imagen
-            with urllib.request.urlopen(f"https://www.last.fm{href}") as response:
-                album_soup = BeautifulSoup(response.read().decode(encoding), 'html.parser')
-                tags = album_soup.find_all('li', class_="tag")
-                genres = set()
-                for tag in tags:
-                    if tag.get_text().strip() != '':
-                        genres.add(tag.get_text().strip())
-                genres = ",".join(genres)
-                img = album_soup.find('a', class_="cover-art")
-                if img:
-                    img = img.img['src']
-                else:
-                    img = None
-            # Indexa la imagen directamente en el documento
-            writer_index.add_document(id=str(id), title=title, artist=artist, release_date=release_date, genres=genres, img=img)
-            id += 1
+                # Obtén la URL de la imagen
+                with urllib.request.urlopen(f"https://www.last.fm{href}") as response:
+                    album_soup = BeautifulSoup(response.read().decode(encoding), 'html.parser')
+                    tags = album_soup.find_all('li', class_="tag")
+                    genres = set()
+                    for tag in tags:
+                        if tag.get_text().strip() != '':
+                            genres.add(tag.get_text().strip())
+                    genres = ",".join(genres)
+                    img = album_soup.find('a', class_="cover-art")
+                    if img:
+                        img = img.img['src']
+                    else:
+                        img = '/static/images/portada_default.jpg'
+                # Indexa la imagen directamente en el documento
+                writer_index.add_document(id=str(id), title=title, artist=artist, release_date=release_date, genres=genres, img=img)
+                id += 1
 
     print("Scraping e indexación completados.")
 
@@ -152,6 +152,5 @@ def filter_by_genre(genre):
         ]
 
 def sortRecommends(recommended_albums, favorite_genres):
-    # Ordena los álbumes recomendados por cantidad de géneros favoritos
     recommended_albums.sort(key=lambda album: len(set(album['genres']).intersection(favorite_genres)), reverse=True)
     return recommended_albums[:10]
