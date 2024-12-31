@@ -8,7 +8,6 @@ from albums.models import UserAlbumInteraction
 @login_required
 def album_list(request):
     albums = services.list_albums()
-    print(albums)
     return render(request, 'album_list.html', {'albums': albums})
 
 @login_required
